@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // getRandomArrayElement Источник - https://efim360.ru/javascript-sluchajnyj-element-massiva/
 
 const randomName = [
@@ -28,6 +29,8 @@ const message = [
 function checkStringLength (string, length) {
   return string.length <= length;
 }
+
+checkStringLength();    // для линта
 
 // Рандомный элемент в заданном диапазоне
 function getRandomPositiveInteger (a, b) {
@@ -63,3 +66,5 @@ const getFotoInfo = (arrayItem, i) => {
 };
 
 const similarCards = Array.from({length: 25}, getFotoInfo);
+
+console.log(similarCards);
