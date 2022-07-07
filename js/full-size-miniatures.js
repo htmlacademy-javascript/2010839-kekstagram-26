@@ -1,37 +1,64 @@
-import {similarCards} from './data.js';
 
 
 const userFullSizePicture = document.querySelector('.big-picture');
 const bigPictureCancel = userFullSizePicture.querySelector('.big-picture__cancel');
-userFullSizePicture.classList.remove('hidden');
+const bigPictureimg = userFullSizePicture.querySelector('.big-picture__img img');
+const socialCommentElement = document.querySelector('.social__comments');
 
 
 // закрытие фото
 
-bigPictureCancel.addEventListener('click', () => {
+const closeFullSizeMiniatures = () => {
   userFullSizePicture.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+};
+
+
+bigPictureCancel.addEventListener('click', () => {
+  closeFullSizeMiniatures ();
 });
 
 document.addEventListener('keydown', (evt) =>  {
-  if (evt.keyCode === 27) {
-    userFullSizePicture.classList.add('hidden');
+  if (evt.key === 'Escape') {
+    closeFullSizeMiniatures ();
   }
 });
 
+// собираю шаблон
 
-document.querySelector('.social__comment-count').classList.add('hidden');     // временное дз
-document.querySelector('.comments-loader').classList.add('hidden');           // временное дз
-document.querySelector('body').classList.add('modal-open');
+const createComentTempate = (comment) => (
+  `<li class="social__comment">
+    <img class="social__picture"
+      src="${comment.avatar}"
+      alt="${comment.name}"
+      width="35" height="35">
+    <p class="social__text">${comment.message}</p>
+</li>`
+);
 
-similarCards.forEach(({url, likes, comments, description}) => {
-  userFullSizePicture.querySelector('.big-picture__img').src = url;
+// записываю шаблоном
+
+const renderComents = (comments) => {
+  socialCommentElement.innerHTML = '';
+
+  comments.forEach((comment) => {
+    socialCommentElement.insertAdjacentHTML('beforeend', createComentTempate(comment));
+  });
+};
+
+
+const renderFullSizeMiniatures = (({url, likes, comments, description}) => {
+  bigPictureimg.src = url;
   userFullSizePicture.querySelector('.likes-count').textContent = likes;
-  userFullSizePicture.querySelector('.comments-count').textContent = comments;
+  userFullSizePicture.querySelector('.comments-count').textContent = comments.length;
   userFullSizePicture.querySelector('.social__caption').textContent = description;
+  userFullSizePicture.classList.remove('hidden');
 
-  // сборка комментария
+  document.querySelector('.social__comment-count').classList.add('hidden');     // временное дз
+  document.querySelector('.comments-loader').classList.add('hidden');           // временное дз
+  document.querySelector('body').classList.add('modal-open');
 
-  userFullSizePicture.querySelector('.social__text').textContent = comments[0].message;
-  userFullSizePicture.querySelector('.social__picture').src = comments[0].avatar;
-  userFullSizePicture.querySelector('.social__picture').alt = comments[0].name;
+  renderComents(comments);      // сборка комментария
 });
+
+export {renderFullSizeMiniatures};
