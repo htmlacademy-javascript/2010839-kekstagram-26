@@ -40,6 +40,12 @@ const getFotoInfo = (arrayItem, i) => {
         avatar: `img/avatar-${randomAvatar}.svg`,
         message:  getRandomArrayElement(message),
         name: getRandomArrayElement(randomName),
+      },
+      {
+        id: i + 1,
+        avatar: `img/avatar-${randomAvatar}.svg`,
+        message:  getRandomArrayElement(message),
+        name: getRandomArrayElement(randomName),
       }
     ]
   };
