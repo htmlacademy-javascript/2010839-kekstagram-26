@@ -5,7 +5,7 @@ const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
-const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;
+// const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;
 
 // открытие миниатюры
 
