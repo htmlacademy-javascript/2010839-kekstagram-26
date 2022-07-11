@@ -1,4 +1,4 @@
-
+import {isEscapeKey} from './util.js';
 
 const userFullSizePicture = document.querySelector('.big-picture');
 const bigPictureCancel = userFullSizePicture.querySelector('.big-picture__cancel');
@@ -13,16 +13,18 @@ const closeFullSizeMiniatures = () => {
   document.querySelector('body').classList.remove('modal-open');
 };
 
-
 bigPictureCancel.addEventListener('click', () => {
   closeFullSizeMiniatures ();
+
+  document.addEventListener('keydown', (evt) =>  {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      closeFullSizeMiniatures ();
+      evt.stopPropagation();
+    }
+  });
 });
 
-document.addEventListener('keydown', (evt) =>  {
-  if (evt.key === 'Escape') {
-    closeFullSizeMiniatures ();
-  }
-});
 
 // собираю шаблон
 

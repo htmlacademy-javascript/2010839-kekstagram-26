@@ -28,26 +28,25 @@ const message = [
 const getFotoInfo = (arrayItem, i) => {
   const randomAvatar = getRandomPositiveInteger (1, 6);
   const newI = i+1;                                       // потому что отсчёт идет с 0
+  const comments = [];
+
+  for (let j=1; j<=25; j++) {
+    comments.push (
+      {
+        id: j + 1,
+        avatar: `img/avatar-${randomAvatar}.svg`,
+        message:  getRandomArrayElement(message),
+        name: getRandomArrayElement(randomName),
+      },
+    );
+  }
 
   return {
     id: newI,
     url: `photos/${newI}.jpg`,
     description: getRandomArrayElement(randomDescription),
     likes: getRandomPositiveInteger(15, 200),
-    comments: [
-      {
-        id: i + 1,
-        avatar: `img/avatar-${randomAvatar}.svg`,
-        message:  getRandomArrayElement(message),
-        name: getRandomArrayElement(randomName),
-      },
-      {
-        id: i + 1,
-        avatar: `img/avatar-${randomAvatar}.svg`,
-        message:  getRandomArrayElement(message),
-        name: getRandomArrayElement(randomName),
-      }
-    ]
+    comments: comments
   };
 };
 
