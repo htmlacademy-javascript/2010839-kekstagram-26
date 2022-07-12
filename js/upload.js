@@ -5,7 +5,6 @@ const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
-// const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;
 
 // открытие миниатюры
 
@@ -56,27 +55,29 @@ const pristine = new Pristine(form, {
 });
 
 const tags = (value) => value
-  .trim()                       // удаляем пробелы
   .split(' ')                   // разбивка строки в массив
-  .toLowerCase()                // малый регистр
+  .trim()                       // удаляем пробелы
   .filter((tag) => tag !== ''); // не пустая строка // .filter - новый массив со всеми элементами, прошедшими проверку, задаваемую в передаваемой функции
+
+const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;
 
 // кастомный валидатор
 
 pristine.addValidator(hashtagsElement,
   () => {
-    if (tags.length <= 5){
-      return true;
+    for(let i =0; i <= tags.length-1; i++) {
+      if (tags.length > 5 || hashtegRegex.test(tags)){
+        return false;
+      }
     }
-    return false;
   },
-  'проблема'
+  'проблема', 2, false
 );
 
 const validForm = pristine.validate();
 
 form.addEventListener('submit', (evt) => {
-  if(!validForm) {
+  if(validForm) {
     evt.preventDefault();
   }
 });
