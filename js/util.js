@@ -11,4 +11,7 @@ function getRandomArrayElement(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
-export {getRandomArrayElement, getRandomPositiveInteger};
+// кнопка Escape
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomArrayElement, getRandomPositiveInteger, isEscapeKey};

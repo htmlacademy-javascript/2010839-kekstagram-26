@@ -1,6 +1,7 @@
 import {similarCards} from './data.js';
 import {renderFullSizeMiniatures} from './full-size-miniatures.js';
 
+
 const userPicture = document.querySelector('.pictures');    //  родитель куда засунем шаблон
 
 const similarPictureTemplate = document.querySelector('#picture')    //  шаблон
