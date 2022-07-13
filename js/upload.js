@@ -57,7 +57,7 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper'
 }, true);
 
-const getTags = (value) => value.split(' ').trim();                 //  получение тегов
+const getTags = (value) => value.trim().split(' ');                 //  получение тегов
 
 const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;                //  регулярка
 
@@ -73,7 +73,7 @@ const areHashtegsValid = (value) => {
 };
 
 pristine.addValidator(hashtagsElement, areHashtegsValid,
-  'проблема в хештегах',
+  'проблема в хештегах'
 );
 
 //  проверка на кол-во
@@ -85,7 +85,7 @@ const isHashtegsCountValid = (value) => {
 };
 
 pristine.addValidator(hashtagsElement, isHashtegsCountValid,
-  'количество не больше 5',
+  'количество не больше 5'
 );
 
 //  проверка на уникальность
@@ -99,7 +99,7 @@ const isHashtegsUnique = (value) => {
 };
 
 pristine.addValidator(hashtagsElement, isHashtegsUnique,
-  'каждый хэштег должен быть уникальным',
+  'каждый хэштег должен быть уникальным'
 );
 
 
