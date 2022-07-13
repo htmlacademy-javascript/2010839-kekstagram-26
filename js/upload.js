@@ -5,12 +5,15 @@ const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
+const HASHTEG_MAX_COUNT = 5;
 
 // открытие миниатюры
 
 uploadMiniaturesElement.addEventListener('change', () => {
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
+  document.querySelector('.social__comment-count').classList.remove('hidden');
+  document.querySelector('.comments-loader').classList.remove('hidden');
 });
 
 // закрытие миниатюры и очищение полей
@@ -52,31 +55,56 @@ descriptionElement.addEventListener('keydown', (evt) =>  {
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper'
-});
+}, true);
 
-const tags = (value) => value
-  .split(' ')                   // разбивка строки в массив
-  .trim()                       // удаляем пробелы
-  .filter((tag) => tag !== ''); // не пустая строка // .filter - новый массив со всеми элементами, прошедшими проверку, задаваемую в передаваемой функции
+const getTags = (value) => value.split(' ').trim();                 //  получение тегов
 
-const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;
+const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;                //  регулярка
 
-// кастомный валидатор
+const isHashtegValid = (value) => hashtegRegex.test(value);         //  проверка строки на регулярку
 
-pristine.addValidator(hashtagsElement,
-  () => {
-    for(let i =0; i <= tags.length-1; i++) {
-      if (tags.length > 5 || hashtegRegex.test(tags)){
-        return false;
-      }
-    }
-  },
-  'проблема', 2, false
+
+//  проверка всех на Regex
+
+const areHashtegsValid = (value) => {
+  const hashtegs = getTags(value);
+
+  return hashtegs.every((hashteg) => isHashtegValid(hashteg));
+};
+
+pristine.addValidator(hashtagsElement, areHashtegsValid,
+  'проблема в хештегах',
 );
 
-const validForm = pristine.validate();
+//  проверка на кол-во
+
+const isHashtegsCountValid = (value) => {
+  const hashtegs = getTags(value);
+
+  return (hashtegs.length <= HASHTEG_MAX_COUNT);
+};
+
+pristine.addValidator(hashtagsElement, isHashtegsCountValid,
+  'количество не больше 5',
+);
+
+//  проверка на уникальность
+
+const isHashtegsUnique = (value) => {
+  const hashtegs = getTags(value);
+  const lowercaseHashteg = hashtegs.map((hashteg) => hashteg.toLowerCase());
+  const set = new Set(lowercaseHashteg);
+
+  return (set.size === lowercaseHashteg.length);
+};
+
+pristine.addValidator(hashtagsElement, isHashtegsUnique,
+  'каждый хэштег должен быть уникальным',
+);
+
 
 form.addEventListener('submit', (evt) => {
+  const validForm = pristine.validate();
   if(validForm) {
     evt.preventDefault();
   }
