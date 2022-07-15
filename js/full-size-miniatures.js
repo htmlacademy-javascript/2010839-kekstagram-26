@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
 
+
 const userFullSizePicture = document.querySelector('.big-picture');
 const bigPictureCancel = userFullSizePicture.querySelector('.big-picture__cancel');
 const bigPictureimg = userFullSizePicture.querySelector('.big-picture__img img');
@@ -56,11 +57,33 @@ const renderFullSizeMiniatures = (({url, likes, comments, description}) => {
   userFullSizePicture.querySelector('.social__caption').textContent = description;
   userFullSizePicture.classList.remove('hidden');
 
-  document.querySelector('.social__comment-count').classList.add('hidden');     // временное дз
-  document.querySelector('.comments-loader').classList.add('hidden');           // временное дз
+
   document.querySelector('body').classList.add('modal-open');
 
   renderComents(comments);      // сборка комментария
+
+  const arrSocialComments = Array.from(userFullSizePicture.querySelectorAll('.social__comment'));
+  const socialCommentCount = document.querySelectorAll('.social__comment-count');                  // счётчик
+  const socialCommentsLoaderButton = document.querySelectorAll('.social__comments-loader');              // кнопка загрузки
+  const step = 5;
+  let item = 0;
+
+  arrSocialComments.slice(step).forEach((e) => e.classList.add('hidden'));
+  item += step;
+
+  socialCommentsLoaderButton.addEventListener('click', () => {
+    const tmp = arrSocialComments.slice(item, item + step);
+
+    tmp.forEach((e) => e.classList.remove('hidden'));
+    item += step;
+
+    const socialCommentCountHidden = Array.from(userFullSizePicture.querySelectorAll('.social__comment.hidden'));
+    socialCommentCount.innerHTML = `${arrSocialComments.length - socialCommentCountHidden.length} из <span class="comments-count">${comments.length}</span> комментариев`;
+
+    if (item >= arrSocialComments.length) {
+      socialCommentsLoaderButton.classList.add('hidden');
+    }
+  });
 });
 
 export {renderFullSizeMiniatures};

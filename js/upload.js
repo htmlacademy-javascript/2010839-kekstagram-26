@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {rangeButtons} from './range.js';
 
 const uploadMiniaturesElement = document.querySelector('#upload-file');
 const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
@@ -7,13 +8,16 @@ const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
 const HASHTEG_MAX_COUNT = 5;
 
-// открытие миниатюры
+// открытие/загрузка миниатюры
 
 uploadMiniaturesElement.addEventListener('change', () => {
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.querySelector('.social__comment-count').classList.remove('hidden');
   document.querySelector('.comments-loader').classList.remove('hidden');
+  const valueElement = document.querySelector('.scale__control--value');
+  valueElement.value = '100%';    //  переписываю базовое значение
+  rangeButtons();    //  подрубаю кнопки + -
 });
 
 // закрытие миниатюры и очищение полей
