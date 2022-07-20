@@ -1,5 +1,5 @@
 import {isEscapeKey} from './util.js';
-import {rangeButtons} from './range.js';
+import {rangeButtons} from './range-buttons.js';
 
 const uploadMiniaturesElement = document.querySelector('#upload-file');
 const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
