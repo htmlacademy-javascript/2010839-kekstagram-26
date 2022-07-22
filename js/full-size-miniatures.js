@@ -7,6 +7,7 @@ const socialCommentElement = document.querySelector('.social__comments');       
 const commentsLoader = userFullSizePicture.querySelector('.comments-loader');                  //  кнопка занрузки сообщений
 const commentsShowCount = userFullSizePicture.querySelector('.social__comment-count');       //  счетчик
 const MAX_COMMENTS_TO_SHOW = 5;
+// eslint-disable-next-line no-unused-vars
 let count = 0;
 
 // закрытие фото
@@ -56,6 +57,7 @@ const renderComments = () => {
 
   socialCommentElement.append(commentsFragment);
   commentsLoader.classList.toggle('hidden', 'все комменты' === commentsShow.length);      // скрываю кнопку когда длинна всех равно загрузу(второй арщумент это условие)
+  // eslint-disable-next-line no-undef
   commentsShowCount.innerHTML = `${commentsShow.length} из <span class="comments-count">${comments.length}</span> комментариев`;   // перезаписываю счетчик
 };
 
