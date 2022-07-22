@@ -27,7 +27,7 @@ const hideSlider = () => {
   }
 };
 
-// функция сброса параматров ренжа до базовых
+// функция сброса параметров ренжа до базовых
 
 const resetSlider = () => {
   sliderElement.noUiSlider.updateOptions({
@@ -115,3 +115,5 @@ sliderElement.noUiSlider.on('update', () => {
 });
 
 uploadEffects.addEventListener('change', onEffectChange);
+
+export {hideSlider};
