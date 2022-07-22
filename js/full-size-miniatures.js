@@ -3,8 +3,12 @@ import {isEscapeKey} from './util.js';
 const userFullSizePicture = document.querySelector('.big-picture');
 const bigPictureCancel = userFullSizePicture.querySelector('.big-picture__cancel');
 const bigPictureimg = userFullSizePicture.querySelector('.big-picture__img img');
-const socialCommentElement = document.querySelector('.social__comments');
-
+const socialCommentElement = document.querySelector('.social__comments');                         //  блок с коментами
+const commentsLoader = userFullSizePicture.querySelector('.comments-loader');                  //  кнопка занрузки сообщений
+const commentsShowCount = userFullSizePicture.querySelector('.social__comment-count');       //  счетчик
+const MAX_COMMENTS_TO_SHOW = 5;
+// eslint-disable-next-line no-unused-vars
+let count = 0;
 
 // закрытие фото
 
@@ -28,7 +32,7 @@ bigPictureCancel.addEventListener('click', () => {
 
 // собираю шаблон
 
-const createComentTempate = (comment) => (
+const createCommentTempate = (comment) => (
   `<li class="social__comment">
     <img class="social__picture"
       src="${comment.avatar}"
@@ -40,14 +44,29 @@ const createComentTempate = (comment) => (
 
 // записываю шаблоном
 
-const renderComents = (comments) => {
+const renderComments = () => {
   socialCommentElement.innerHTML = '';
 
-  comments.forEach((comment) => {
-    socialCommentElement.insertAdjacentHTML('beforeend', createComentTempate(comment));
+  const commentsFragment = document.createDocumentFragment();
+
+  const commentsShow = 'тут не знаю';     //   тут над массив комментов заюзать, где его взять я не выкупаю
+
+  commentsShow.forEach((comment) => {
+    commentsFragment.append(createCommentTempate(comment));           // перебираю массив и добавляю шаблон
   });
+
+  socialCommentElement.append(commentsFragment);
+  commentsLoader.classList.toggle('hidden', 'все комменты' === commentsShow.length);      // скрываю кнопку когда длинна всех равно загрузу(второй арщумент это условие)
+  // eslint-disable-next-line no-undef
+  commentsShowCount.innerHTML = `${commentsShow.length} из <span class="comments-count">${comments.length}</span> комментариев`;   // перезаписываю счетчик
 };
 
+// функция для счетчика, который делает +5 коментов, второй параметр - вызов функции генерации комментов
+
+function commentsLoaderOnClick() {
+  count += MAX_COMMENTS_TO_SHOW;
+  renderComments();
+}
 
 const renderFullSizeMiniatures = (({url, likes, comments, description}) => {
   bigPictureimg.src = url;
@@ -56,11 +75,10 @@ const renderFullSizeMiniatures = (({url, likes, comments, description}) => {
   userFullSizePicture.querySelector('.social__caption').textContent = description;
   userFullSizePicture.classList.remove('hidden');
 
-  document.querySelector('.social__comment-count').classList.add('hidden');     // временное дз
-  document.querySelector('.comments-loader').classList.add('hidden');           // временное дз
   document.querySelector('body').classList.add('modal-open');
 
-  renderComents(comments);      // сборка комментария
+  renderComments();
+  commentsLoader.addEventListener('click', commentsLoaderOnClick);     // добавили слущателя на кнопку загрузки кнопки, делаем +5 каждый раз при нажатии
 });
 
 export {renderFullSizeMiniatures};
