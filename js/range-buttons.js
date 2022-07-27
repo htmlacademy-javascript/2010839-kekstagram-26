@@ -1,10 +1,10 @@
+const MIN_VALUE = 25;
+const MAX_VALUE = 100;
+
 const smallerButtonElement = document.querySelector('.scale__control--smaller');
 const valueElement = document.querySelector('.scale__control--value');
 const biggerButtonElement = document.querySelector('.scale__control--bigger');
 const valueEffectPicturieElement = document.querySelector('.img-upload__preview');
-
-const MIN_VALUE = 25;
-const MAX_VALUE = 100;
 
 valueElement.value = `${MAX_VALUE}%`;
 

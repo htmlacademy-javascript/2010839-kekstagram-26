@@ -1,16 +1,17 @@
-import {isEscapeKey, showAlert} from './util.js';
-import {rangeButtons} from './range-buttons.js';
-import {hideSlider} from './effect.js';
-import {sendData} from './api.js';
-import {} from './util.js';
+import { isEscapeKey } from './utils.js';
+import { openMessagePopup } from './message-popup.js';
+import { rangeButtons } from './range-buttons.js';
+import { hideSlider } from './effect.js';
+import { sendData } from './api.js';
+import { resetEffects } from './effect.js';
 
-
+const HASHTEG_MAX_COUNT = 5;
+const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadMiniaturesElement = document.querySelector('#upload-file');
 const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
-const HASHTEG_MAX_COUNT = 5;
 const submitButton = document.querySelector('#upload-submit');
 // открытие && загрузка миниатюры
 
@@ -32,8 +33,14 @@ const closeEditMiniatures = () => {
   document.querySelector('body').classList.remove('modal-open');
 };
 
+const resetForm = () => {
+  uploadFormElement.reset();
+  resetEffects();
+};
+
 cancelEditMiniaturesElement.addEventListener('click', () => {
   closeEditMiniatures ();
+  resetForm();
 });
 
 document.addEventListener('keydown', (evt) =>  {
@@ -41,6 +48,7 @@ document.addEventListener('keydown', (evt) =>  {
     evt.preventDefault();
     closeEditMiniatures ();
     uploadMiniaturesElement.value = '';
+    resetForm();
   }
 });
 
@@ -132,10 +140,13 @@ const setUserFormSubmit = (onSuccess) => {
         () => {
           onSuccess();
           unblockSubmitButton();
+          openMessagePopup('success');
+          resetForm();
         },
         () => {
-          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
           unblockSubmitButton();
+          openMessagePopup('error');
+          resetForm();
         },
         new FormData(evt.target),
       );
@@ -143,4 +154,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {setUserFormSubmit};
+export {setUserFormSubmit, closeEditMiniatures};

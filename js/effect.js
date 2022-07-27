@@ -1,9 +1,13 @@
+const IMAGE_SCALE = 100;
 
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const uploadEffects = document.querySelector('.effects__list');
 const rangeContainer = document.querySelector('.img-upload__effect-level');
 const effectLevel = rangeContainer.querySelector('.effect-level__value');
 const sliderElement = rangeContainer.querySelector('.effect-level__slider');
+const scaleElement = document.querySelector('.scale__control--value');
+const uploadImageFormElement = document.querySelector('#upload-select-image');
+const photoElement = document.querySelector('.img-upload__preview');
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -38,6 +42,18 @@ const resetSlider = () => {
     start: 1,
     step: 0.1,
   });
+};
+
+const resetEffects = () => {
+  resetSlider();
+  scaleElement.value = `${IMAGE_SCALE}%`;
+  imgUploadPreview.style = 'transform: scale(1)';
+
+  uploadImageFormElement.reset();
+  imgUploadPreview.style.filter = 'none';
+  imgUploadPreview.src = '';
+  currentEffect = 'none';
+  photoElement.style.transform = 'scale(1)';
 };
 
 const onEffectChange = (evt) => {
@@ -116,4 +132,4 @@ sliderElement.noUiSlider.on('update', () => {
 
 uploadEffects.addEventListener('change', onEffectChange);
 
-export {hideSlider};
+export {hideSlider, resetEffects};

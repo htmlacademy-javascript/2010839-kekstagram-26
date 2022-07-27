@@ -1,12 +1,12 @@
-import {isEscapeKey} from './util.js';
+import { isEscapeKey } from './utils.js';
 
+const MAX_COMMENTS_TO_SHOW = 5;
 const userFullSizePicture = document.querySelector('.big-picture');
 const bigPictureCancel = userFullSizePicture.querySelector('.big-picture__cancel');
 const bigPictureimg = userFullSizePicture.querySelector('.big-picture__img img');
 const socialCommentElement = document.querySelector('.social__comments');                         //  блок с коментами
 const commentsLoader = userFullSizePicture.querySelector('.comments-loader');                  //  кнопка занрузки сообщений
 const commentsShowCount = userFullSizePicture.querySelector('.social__comment-count');       //  счетчик
-const MAX_COMMENTS_TO_SHOW = 5;
 
 // закрытие фото
 
