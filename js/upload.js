@@ -1,6 +1,9 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, showAlert} from './util.js';
 import {rangeButtons} from './range-buttons.js';
 import {hideSlider} from './effect.js';
+import {sendData} from './api.js';
+import {} from './util.js';
+
 
 const uploadMiniaturesElement = document.querySelector('#upload-file');
 const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
@@ -8,7 +11,7 @@ const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
 const HASHTEG_MAX_COUNT = 5;
-
+const submitButton = document.querySelector('#upload-submit');
 // открытие && загрузка миниатюры
 
 uploadMiniaturesElement.addEventListener('change', () => {
@@ -109,9 +112,35 @@ pristine.addValidator(hashtagsElement, isHashtegsUnique,
 );
 
 
-form.addEventListener('submit', (evt) => {
-  const validForm = pristine.validate();
-  if(validForm) {
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const validForm = pristine.validate();
+    if (validForm) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit};
