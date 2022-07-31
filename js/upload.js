@@ -1,6 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { openMessagePopup } from './message-popup.js';
-import { rangeButtons } from './range-buttons.js';
+import { setListenersButtons, removeListenersButtons } from './range-buttons.js';
 import { hideSlider } from './effect.js';
 import { sendData } from './api.js';
 import { resetEffects } from './effect.js';
@@ -28,8 +28,9 @@ uploadMiniaturesElement.addEventListener('change', () => {
   commentsLoaderElement.classList.remove('hidden');
   const valueElement = scaleValueElement;
   valueElement.value = '100%';    //  переписываю базовое значение
-  rangeButtons();    //  подрубаю кнопки + -
+  setListenersButtons();    //  подрубаю кнопки + -
   hideSlider();      //  скрываю слайдер на базовой картинке
+  document.addEventListener('keydown', onFormKeydown);
 });
 
 // закрытие миниатюры и очищение полей
@@ -37,6 +38,8 @@ uploadMiniaturesElement.addEventListener('change', () => {
 const closeEditMiniatures = () => {
   imgOverlayElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
+  document.removeEventListener('keydown', onFormKeydown);
+  removeListenersButtons();
 };
 
 const resetForm = () => {
@@ -45,18 +48,20 @@ const resetForm = () => {
 };
 
 cancelEditMiniaturesElement.addEventListener('click', () => {
-  closeEditMiniatures ();
+  closeEditMiniatures();
   resetForm();
 });
 
-document.addEventListener('keydown', (evt) =>  {
-  if (isEscapeKey(evt)) {
+function onFormKeydown(evt) {
+  const errorElement = document.querySelector('.error');
+  if (isEscapeKey(evt) && !errorElement) {
     evt.preventDefault();
-    closeEditMiniatures ();
+    closeEditMiniatures();
     uploadMiniaturesElement.value = '';
     resetForm();
   }
-});
+}
+
 
 // сброс Esc при фокусе на input
 

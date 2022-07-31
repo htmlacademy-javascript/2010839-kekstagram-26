@@ -9,7 +9,7 @@ const valueEffectPicturieElement = document.querySelector('.img-upload__preview'
 valueElement.value = `${MAX_VALUE}%`;
 
 
-const plusValue = () => {
+const onZoomInButton = () => {
   let parsNumber = parseInt(valueElement.value, 10) + MIN_VALUE;    // parseInt преобразование строки в число, потому что инпут type text   https://javascript.ru/parseInt
   if (parsNumber > MAX_VALUE) {
     parsNumber = MAX_VALUE;
@@ -18,7 +18,7 @@ const plusValue = () => {
   valueElement.value = `${parsNumber}%`;
 };
 
-const minusValue = ()=> {
+const onZoomOutButton = ()=> {
   let parsNumber = parseInt(valueElement.value, 10) - MIN_VALUE;
   if (parsNumber < MIN_VALUE) {
     parsNumber = MIN_VALUE;
@@ -27,11 +27,14 @@ const minusValue = ()=> {
   valueElement.value = `${parsNumber}%`;
 };
 
-const rangeButtons = () => {
-  biggerButtonElement.addEventListener('click', plusValue);
-  biggerButtonElement.removeEventListener('click', minusValue);
-  smallerButtonElement.addEventListener('click', minusValue);
-  smallerButtonElement.removeEventListener('click', plusValue);
+const setListenersButtons = () => {
+  biggerButtonElement.addEventListener('click', onZoomInButton);
+  smallerButtonElement.addEventListener('click', onZoomOutButton);
 };
 
-export {rangeButtons};
+const removeListenersButtons = () => {
+  biggerButtonElement.removeEventListener('click', onZoomInButton);
+  smallerButtonElement.removeEventListener('click', onZoomOutButton);
+};
+
+export {setListenersButtons, removeListenersButtons};

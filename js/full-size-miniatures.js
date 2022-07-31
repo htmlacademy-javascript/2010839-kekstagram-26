@@ -10,47 +10,37 @@ const bigPictureimgElement = userFullSizePictureElement.querySelector('.big-pict
 const socialCommentElement = document.querySelector('.social__comments');                         //  блок с коментами
 const commentsLoaderElement = userFullSizePictureElement.querySelector('.comments-loader');                  //  кнопка занрузки сообщений
 const commentsShowCountElement = userFullSizePictureElement.querySelector('.social__comment-count');       //  счетчик
+const commentTemplate = document.querySelector('#comment');
 
 // закрытие фото
 
 const closeFullSizeMiniatures = () => {
   userFullSizePictureElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
+  document.removeEventListener('keydown', onFullSizeMiniaturesKeydown);
 };
 
 bigPictureCancelElement.addEventListener('click', () => {
   closeFullSizeMiniatures ();
 });
 
-document.addEventListener('keydown', (evt) =>  {
+function onFullSizeMiniaturesKeydown(evt)  {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeFullSizeMiniatures ();
+    closeFullSizeMiniatures();
     evt.stopPropagation();
   }
-});
+}
 
 // собираю шаблон
 
-// const createCommentTempate = (comment) => (
-//   `<li class="social__comment">
-//     <img class="social__picture"
-//       src="${comment.avatar}"
-//       alt="${comment.name}"
-//       width="35" height="35">
-//     <p class="social__text">${comment.message}</p>
-// </li>`
-// );
-
-
-const createCommentTempate = (comment) => {
-  const newCommentItem = document.createElement('li');
-  newCommentItem.classList.add('social__comment');
-  const commentImage = document.createElement('img');
-  commentImage.classList.add('social__picture');
-  commentImage.src = comment.avatar;
-  commentImage.alt = comment.name;
-  newCommentItem.appendChild(commentImage);
+const createCommentTemplate = (comment) => {
+  const commentElement = commentTemplate.cloneNode(true).content.querySelector('.social__comment');
+  const commentImgElement = commentElement.querySelector('.social__picture');
+  commentImgElement.src = comment.avatar;
+  commentImgElement.alt = comment.name;
+  commentElement.querySelector('.social__text').textContent = comment.message;
+  socialCommentElement.append(commentElement);
 };
 
 let commentsModule;
@@ -59,9 +49,7 @@ let count;
 const renderComments = () => {
   socialCommentElement.innerHTML = '';
   const commentsRender = commentsModule.slice(0, count);
-  commentsRender.forEach((comment) => {
-    socialCommentElement.insertAdjacentHTML('beforeend', createCommentTempate(comment));
-  });
+  commentsRender.forEach((comment) => createCommentTemplate(comment));
 
   // скрываю кнопку
 
@@ -93,6 +81,7 @@ const renderFullSizeMiniatures = (({url, likes, comments, description}) => {
   renderComments();
   // добавили слушателя на кнопку загрузки кнопки, делаем +5 каждый раз при нажатии
   commentsLoaderElement.addEventListener('click', commentsLoaderOnClick);
+  document.addEventListener('keydown', onFullSizeMiniaturesKeydown);
 });
 
 export {renderFullSizeMiniatures};
