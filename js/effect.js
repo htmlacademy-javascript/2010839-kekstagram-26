@@ -1,10 +1,9 @@
 const IMAGE_SCALE = 100;
-
-const imgUploadPreview = document.querySelector('.img-upload__preview img');
-const uploadEffects = document.querySelector('.effects__list');
-const rangeContainer = document.querySelector('.img-upload__effect-level');
-const effectLevel = rangeContainer.querySelector('.effect-level__value');
-const sliderElement = rangeContainer.querySelector('.effect-level__slider');
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
+const uploadEffectsElement = document.querySelector('.effects__list');
+const rangeContainerElement = document.querySelector('.img-upload__effect-level');
+const effectLevelElement = rangeContainerElement.querySelector('.effect-level__value');
+const sliderElement = rangeContainerElement.querySelector('.effect-level__slider');
 const scaleElement = document.querySelector('.scale__control--value');
 const uploadImageFormElement = document.querySelector('#upload-select-image');
 const photoElement = document.querySelector('.img-upload__preview');
@@ -25,9 +24,9 @@ let currentEffect = document.querySelector('.effects__list input:checked').value
 
 const hideSlider = () => {
   if (currentEffect === 'none') {
-    rangeContainer.classList.add('hidden');
+    rangeContainerElement.classList.add('hidden');
   } else {
-    rangeContainer.classList.remove('hidden');
+    rangeContainerElement.classList.remove('hidden');
   }
 };
 
@@ -47,19 +46,18 @@ const resetSlider = () => {
 const resetEffects = () => {
   resetSlider();
   scaleElement.value = `${IMAGE_SCALE}%`;
-  imgUploadPreview.style = 'transform: scale(1)';
-
+  imgUploadPreviewElement.style = 'transform: scale(1)';
   uploadImageFormElement.reset();
-  imgUploadPreview.style.filter = 'none';
-  imgUploadPreview.src = '';
+  imgUploadPreviewElement.style.filter = 'none';
+  imgUploadPreviewElement.src = '';
   currentEffect = 'none';
   photoElement.style.transform = 'scale(1)';
 };
 
 const onEffectChange = (evt) => {
-  imgUploadPreview.classList.remove(`effects__preview--${currentEffect}`);
+  imgUploadPreviewElement.classList.remove(`effects__preview--${currentEffect}`);
   currentEffect = evt.target.value;
-  imgUploadPreview.classList.add(`effects__preview--${currentEffect}`);
+  imgUploadPreviewElement.classList.add(`effects__preview--${currentEffect}`);
 
   hideSlider();
 
@@ -104,32 +102,32 @@ const onEffectChange = (evt) => {
 // связка на событие изменения
 
 sliderElement.noUiSlider.on('update', () => {
-  effectLevel.value = sliderElement.noUiSlider.get();
+  effectLevelElement.value = sliderElement.noUiSlider.get();
 
   if (currentEffect === 'none') {
-    imgUploadPreview.style.filter = 'none';
+    imgUploadPreviewElement.style.filter = 'none';
   }
 
   if (currentEffect === 'chrome') {
-    imgUploadPreview.style.filter = `grayscale(${effectLevel.value})`;
+    imgUploadPreviewElement.style.filter = `grayscale(${effectLevelElement.value})`;
   }
 
   if (currentEffect === 'sepia') {
-    imgUploadPreview.style.filter = `sepia(${effectLevel.value})`;
+    imgUploadPreviewElement.style.filter = `sepia(${effectLevelElement.value})`;
   }
 
   if (currentEffect === 'marvin') {
-    imgUploadPreview.style.filter = `invert(${effectLevel.value}%)`;
+    imgUploadPreviewElement.style.filter = `invert(${effectLevelElement.value}%)`;
   }
 
   if (currentEffect === 'phobos') {
-    imgUploadPreview.style.filter = `blur(${effectLevel.value}px)`;
+    imgUploadPreviewElement.style.filter = `blur(${effectLevelElement.value}px)`;
   }
   if (currentEffect === 'heat') {
-    imgUploadPreview.style.filter = `brightness(${effectLevel.value})`;
+    imgUploadPreviewElement.style.filter = `brightness(${effectLevelElement.value})`;
   }
 });
 
-uploadEffects.addEventListener('change', onEffectChange);
+uploadEffectsElement.addEventListener('change', onEffectChange);
 
 export {hideSlider, resetEffects};

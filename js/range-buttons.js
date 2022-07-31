@@ -9,25 +9,29 @@ const valueEffectPicturieElement = document.querySelector('.img-upload__preview'
 valueElement.value = `${MAX_VALUE}%`;
 
 
+const plusValue = () => {
+  let parsNumber = parseInt(valueElement.value, 10) + MIN_VALUE;    // parseInt преобразование строки в число, потому что инпут type text   https://javascript.ru/parseInt
+  if (parsNumber > MAX_VALUE) {
+    parsNumber = MAX_VALUE;
+  }
+  valueEffectPicturieElement.style.transform = `scale(${parsNumber/100})`;
+  valueElement.value = `${parsNumber}%`;
+};
+
+const minusValue = ()=> {
+  let parsNumber = parseInt(valueElement.value, 10) - MIN_VALUE;
+  if (parsNumber < MIN_VALUE) {
+    parsNumber = MIN_VALUE;
+  }
+  valueEffectPicturieElement.style.transform = `scale(${parsNumber/100})`;
+  valueElement.value = `${parsNumber}%`;
+};
+
 const rangeButtons = () => {
-  biggerButtonElement.addEventListener('click', ()=> {
-    let parsNumber = parseInt(valueElement.value, 10) + MIN_VALUE;    // parseInt преобразование строки в число, потому что инпут type text   https://javascript.ru/parseInt
-    if (parsNumber > MAX_VALUE) {
-      parsNumber = MAX_VALUE;
-    }
-    valueEffectPicturieElement.style.transform = `scale(${parsNumber/100})`;
-    valueElement.value = `${parsNumber}%`;
-  });
-
-
-  smallerButtonElement.addEventListener('click', ()=> {
-    let parsNumber = parseInt(valueElement.value, 10) - MIN_VALUE;
-    if (parsNumber < MIN_VALUE) {
-      parsNumber = MIN_VALUE;
-    }
-    valueEffectPicturieElement.style.transform = `scale(${parsNumber/100})`;
-    valueElement.value = `${parsNumber}%`;
-  });
+  biggerButtonElement.addEventListener('click', plusValue);
+  biggerButtonElement.removeEventListener('click', minusValue);
+  smallerButtonElement.addEventListener('click', minusValue);
+  smallerButtonElement.removeEventListener('click', plusValue);
 };
 
 export {rangeButtons};

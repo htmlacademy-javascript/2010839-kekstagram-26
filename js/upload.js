@@ -12,15 +12,21 @@ const cancelEditMiniaturesElement = document.querySelector('#upload-cancel');
 const hashtagsElement = document.querySelector('.text__hashtags');
 const descriptionElement = document.querySelector('.text__description');
 const form = document.getElementById('upload-select-image');
-const submitButton = document.querySelector('#upload-submit');
+const submitButtonElement = document.querySelector('#upload-submit');
+const imgOverlayElement = document.querySelector('.img-upload__overlay');
+const socialCommentCountElement = document.querySelector('.social__comment-count');
+const commentsLoaderElement = document.querySelector('.comments-loader');
+const scaleValueElement = document.querySelector('.scale__control--value');
+
+
 // открытие && загрузка миниатюры
 
 uploadMiniaturesElement.addEventListener('change', () => {
-  document.querySelector('.img-upload__overlay').classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-  document.querySelector('.social__comment-count').classList.remove('hidden');
-  document.querySelector('.comments-loader').classList.remove('hidden');
-  const valueElement = document.querySelector('.scale__control--value');
+  imgOverlayElement.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  socialCommentCountElement.classList.remove('hidden');
+  commentsLoaderElement.classList.remove('hidden');
+  const valueElement = scaleValueElement;
   valueElement.value = '100%';    //  переписываю базовое значение
   rangeButtons();    //  подрубаю кнопки + -
   hideSlider();      //  скрываю слайдер на базовой картинке
@@ -29,7 +35,7 @@ uploadMiniaturesElement.addEventListener('change', () => {
 // закрытие миниатюры и очищение полей
 
 const closeEditMiniatures = () => {
-  document.querySelector('.img-upload__overlay').classList.add('hidden');
+  imgOverlayElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 };
 
@@ -85,7 +91,9 @@ const isHashtegValid = (value) => hashtegRegex.test(value);         //  пров
 
 const areHashtegsValid = (value) => {
   const hashtegs = getTags(value);
-
+  if (value.length === 0 && hashtegs.length === 1) {
+    return true;
+  }
   return hashtegs.every((hashteg) => isHashtegValid(hashteg));
 };
 
@@ -121,13 +129,13 @@ pristine.addValidator(hashtagsElement, isHashtegsUnique,
 
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Сохраняю...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Сохраняю...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Сохранить';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Сохранить';
 };
 
 const setUserFormSubmit = (onSuccess) => {
@@ -146,7 +154,7 @@ const setUserFormSubmit = (onSuccess) => {
         () => {
           unblockSubmitButton();
           openMessagePopup('error');
-          resetForm();
+          // resetForm();  Б1. 2 часть не очищаю форму если ощибка
         },
         new FormData(evt.target),
       );

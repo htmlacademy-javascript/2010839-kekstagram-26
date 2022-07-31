@@ -4,15 +4,11 @@ const ALERT_SHOW_TIME = 5000;
 
 // Шаблон сообщения о неудачной загрузки изображения
 
-const errorUploadTemplate = document.body
-  .querySelector('#error')
-  .content.querySelector('.error');
+const errorUploadTemplate = document.body.querySelector('#error').content.querySelector('.error');
 
 // Шаблон сообщения об успешной загрузки
 
-const successUploadTemplate = document.body
-  .querySelector('#success')
-  .content.querySelector('.success');
+const successUploadTemplate = document.body.querySelector('#success').content.querySelector('.success');
 
 // Функция, показывающая попап об отправке формы успешно или нет
 
@@ -46,6 +42,7 @@ const openMessagePopup = (popupType) => {
   };
 
   // Функция, проверяющая клик вне области
+
   const onOutsideClick = (evt) => {
     const isOutsideClick = !evt.composedPath().includes(innerPopupSection);
     if (isOutsideClick) {
@@ -64,9 +61,7 @@ const openMessagePopup = (popupType) => {
 
   document.addEventListener('keydown', onMessagePopupEsc);
   document.addEventListener('click', onOutsideClick);
-
   popupButton.addEventListener('click', closeMessagePopup);
-
   document.body.appendChild(innerPopup);
 };
 

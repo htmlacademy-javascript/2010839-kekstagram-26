@@ -4,8 +4,6 @@ const getData = (onSuccess, onError) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        onError();
       }
     })
     .then((photos) => {
@@ -19,7 +17,7 @@ const getData = (onSuccess, onError) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/kekstagram',
+    'https://26.javascript.pages.academ/kekstagram',
     {
       method: 'POST',
       body,
