@@ -1,11 +1,9 @@
 import { renderFullSizeMiniatures } from './full-size-miniatures.js';
 
 
-const userPicture = document.querySelector('.pictures');    //  родитель куда засунем шаблон
-
+const userPictureElement = document.querySelector('.pictures');    //  родитель куда засунем шаблон
 const similarPictureTemplate = document.querySelector('#picture')    //  шаблон
   .content.querySelector('.picture');     // внутрянка шаблона
-
 const pictureFragment = document.createDocumentFragment();     // фрагмент
 
 
@@ -16,11 +14,11 @@ const renderCards = (similarCards) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
     pictureElement.addEventListener('click', () => renderFullSizeMiniatures({url, likes, comments, description}));     // добавил
-    userPicture.append(pictureElement);
+    userPictureElement.append(pictureElement);
   });
 };
 
 
-userPicture.append(pictureFragment);    // добавляю в родителя фрагмент
+userPictureElement.append(pictureFragment);    // добавляю в родителя фрагмент
 
 export {renderCards};

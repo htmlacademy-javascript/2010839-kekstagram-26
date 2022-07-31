@@ -4,9 +4,9 @@ const getData = (onSuccess, onError) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        onError();
       }
+
+      onError();
     })
     .then((photos) => {
       onSuccess(photos);
