@@ -159,7 +159,6 @@ const setUserFormSubmit = (onSuccess) => {
         () => {
           unblockSubmitButton();
           openMessagePopup('error');
-          // resetForm();  Б1. 2 часть не очищаю форму если ощибка
         },
         new FormData(evt.target),
       );
