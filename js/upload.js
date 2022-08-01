@@ -91,7 +91,6 @@ const hashtegRegex = /^#[A-Za-zА-яа-яЕё0-9]{1,19}$/;                //  р
 
 const isHashtegValid = (value) => hashtegRegex.test(value);         //  проверка строки на регулярку
 
-
 //  проверка всех на Regex
 
 const areHashtegsValid = (value) => {
@@ -159,7 +158,6 @@ const setUserFormSubmit = (onSuccess) => {
         () => {
           unblockSubmitButton();
           openMessagePopup('error');
-          // resetForm();  Б1. 2 часть не очищаю форму если ощибка
         },
         new FormData(evt.target),
       );
